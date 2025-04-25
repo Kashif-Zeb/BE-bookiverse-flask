@@ -27,9 +27,9 @@ def check_not_float(key):
     return validator
 class userSchema(Schema):
     user_id = fields.Integer(dump_only=True)
-    username = fields.String(required=True,validate=[validate.Length(min=1,error="username name cannot be left empty"),no_space_validation("name")])
+    username = fields.String(required=True,validate=[validate.Length(min=3,error="username name cannot be left empty"),no_space_validation("name")])
     email = fields.Email(required=True)
-    hash_password = fields.String(required=True,validate=[validate.Length(min=6,error="password cannot be left empty")])
+    hash_password = fields.String(required=True,validate=[validate.Length(min=3,error="password cannot be left empty")])
     role = fields.String(required=True,validate=validate.OneOf(["agent","user","superuser"]))
 
 class user_dump(userSchema):

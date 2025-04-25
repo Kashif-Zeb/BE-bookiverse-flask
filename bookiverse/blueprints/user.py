@@ -34,7 +34,6 @@ def register(args:dict):
 def login(args):
     try:
         access_token,refresh_token,user =userBLC.checking_user(args)
-        breakpoint()
         schema = user_dump()
         user = schema.dump(user)
         return jsonify({"access_token":access_token,"refresh_token":refresh_token,"user_details":user}),HTTPStatus.OK

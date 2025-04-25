@@ -17,12 +17,14 @@ from .emails import send_login_email
 from .email_initalize import mail
 from .limiters import limiter,cache
 from flask_limiter.errors import RateLimitExceeded
+from flask_cors import CORS
 migrate = Migrate()
 
 
 
 def create_app():
     app = Flask(__name__)
+    CORS(app,allow_origins=["*"])
     # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///testing.db"
     # app.config[
     #     "SQLALCHEMY_DATABASE_URI"
@@ -81,7 +83,7 @@ def create_app():
     app.config['MAIL_DEFAULT_SENDER'] = 'kashifzk216@gmail.com'
 
     mail.init_app(app)
-    limiter.init_app(app)
+    # limiter.init_app(app)
 
     app.config['CACHE_TYPE'] = 'SimpleCache'  # Use SimpleCache for demonstration
     app.config['CACHE_DEFAULT_TIMEOUT'] = 300
