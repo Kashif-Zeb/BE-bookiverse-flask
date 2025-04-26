@@ -9,7 +9,7 @@ from bookiverse.app.db import db
 from bookiverse.app.repositories.userRepository import userRepository
 from bookiverse.app.bl.userBLC import userBLC
 from http import HTTPStatus
-from flask_jwt_extended import jwt_required,JWTManager,decode_token
+from flask_jwt_extended import jwt_required,JWTManager,decode_token,get_jwt_identity,create_access_token
 from functools import wraps
 from bookiverse.tasks import file
 from bookiverse.signals import user_logged_in
@@ -39,6 +39,16 @@ def login(args):
         return jsonify({"access_token":access_token,"refresh_token":refresh_token,"user_details":user}),HTTPStatus.OK
     except Exception as e:
         return jsonify({"message":str(e)}),HTTPStatus.UNPROCESSABLE_ENTITY
+
+@bp.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)  # Only accepts refresh tokens
+def refresh():
+    breakpoint()
+    current_user = get_jwt_identity()
+    new_access_token = create_access_token(identity=current_user)
+    return jsonify({
+        'access_token': new_access_token
+    }), 200
 
 # @bp.route("/add_employee",methods=["POST"])
 # @use_args(employeeSchema,location="json")

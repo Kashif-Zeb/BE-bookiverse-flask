@@ -100,13 +100,13 @@ class userBLC:
         if user :
             if user.check_password(args.get("password")):
                 additional_claims = {"role": user.role}
-                access_token = create_access_token(identity=user.username,additional_claims=additional_claims)
+                access_token = create_access_token(identity=user.username,additional_claims=additional_claims,fresh=True)
                 refresh_token = create_refresh_token(identity=user.username,additional_claims=additional_claims)
                 return access_token,refresh_token,user
             else:
-                return jsonify({"error":"password is invalid"})
+                raise Exception("password is invalid")
         else:
-            return jsonify({"error":"email is invalid"})
+            raise Exception("email is invalid")
 
     # @staticmethod
     # def get_employee_with_path(args:dict):
