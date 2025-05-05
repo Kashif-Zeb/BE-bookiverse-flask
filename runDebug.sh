@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
  
-export FLASK_APP=bds
+export FLASK_APP=runApp.py
 export PYTHONPATH=$(pwd)
 
 export DB_NAME=bookiverse

@@ -43,7 +43,6 @@ def login(args):
 @bp.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)  # Only accepts refresh tokens
 def refresh():
-    breakpoint()
     current_user = get_jwt_identity()
     new_access_token = create_access_token(identity=current_user)
     return jsonify({

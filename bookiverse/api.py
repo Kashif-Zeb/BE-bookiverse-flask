@@ -9,7 +9,7 @@ from http import HTTPStatus
 from flask_migrate import Migrate
 from celery import Celery
 from bookiverse.blueprints.user import bp as user
-
+from bookiverse.blueprints.flight import bp as flight
 from bookiverse.celery_settings import celery_init_app
 from flask_mail import Mail
 from .signals import user_logged_in
@@ -89,6 +89,7 @@ def create_app():
     app.config['CACHE_DEFAULT_TIMEOUT'] = 300
     cache.init_app(app)
     app.register_blueprint(user)
+    app.register_blueprint(flight)
 
     from bookiverse.app import models
     return app
