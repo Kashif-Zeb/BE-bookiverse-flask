@@ -1,3 +1,4 @@
+from flask import session
 from bookiverse.app.repositories import flightRepository
 from bookiverse.app.repositories.flightRepository import FlightRepository
 # from http import HTTPStatus
@@ -21,4 +22,12 @@ class FlightBLC:
             return flight
         else:
             raise Exception("flight record not added something went wrong")
-        
+    
+
+    @staticmethod
+    def geting_all_flights_from_db():
+        session = FlightBLC.get_session()
+        flights = FlightRepository.get_all_flights_from_db(session)
+        if flights:
+            return flights
+        raise Exception("there is no flights records")

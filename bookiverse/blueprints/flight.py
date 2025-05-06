@@ -1,4 +1,6 @@
+from encodings.punycode import T
 import http
+import re
 from flask import Flask,Blueprint, jsonify
 from pydash import result
 from webargs.flaskparser import use_args
@@ -13,7 +15,22 @@ bp = Blueprint('flight',__name__)
 @jwt_required()
 @use_args(FlightSchema,location='json')
 def insert_flight(args):
-    flight = FlightBLC.Inserting_the_flight_data_into_db(args)
-    schema = FlightSchema()
-    result = schema.dump(flight)
-    return jsonify(result),HTTPStatus.OK
+    try:
+        flight = FlightBLC.Inserting_the_flight_data_into_db(args)
+        schema = FlightSchema()
+        result = schema.dump(flight)
+        return jsonify(result),HTTPStatus.OK
+    except Exception as e:
+        return jsonify({"message":str(e)}),HTTPStatus.UNPROCESSABLE_ENTITY
+
+
+@bp.route("/get-all-flights",methods=["GET"])
+@jwt_required()
+def get_all_flights():
+    try:
+        flights = FlightBLC.geting_all_flights_from_db()
+        schema = FlightSchema(many=True)
+        result = schema.dump(flights)
+        return jsonify(result),HTTPStatus.OK
+    except Exception as e:
+        return jsonify({"message":str(e)}),HTTPStatus.UNPROCESSABLE_ENTITY

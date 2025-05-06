@@ -1,3 +1,4 @@
+import re
 from sqlalchemy import func
 from bookiverse.app.models.Flight import Flight
 from sqlalchemy.orm import scoped_session
@@ -17,3 +18,9 @@ class FlightRepository:
         except SQLAlchemyError as e:
             session.rollback()
             raise Exception(e)
+    
+
+    @staticmethod
+    def get_all_flights_from_db(session:scoped_session)-> Flight:
+        res = session.query(Flight).all()
+        return res
