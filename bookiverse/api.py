@@ -10,6 +10,8 @@ from flask_migrate import Migrate
 from celery import Celery
 from bookiverse.blueprints.user import bp as user
 from bookiverse.blueprints.flight import bp as flight
+from bookiverse.blueprints.hotel import bp as hotel
+
 from bookiverse.celery_settings import celery_init_app
 from flask_mail import Mail
 from .signals import user_logged_in
@@ -90,6 +92,7 @@ def create_app():
     cache.init_app(app)
     app.register_blueprint(user)
     app.register_blueprint(flight)
+    app.register_blueprint(hotel)
 
     from bookiverse.app import models
     return app
